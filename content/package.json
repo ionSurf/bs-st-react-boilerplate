@@ -1,5 +1,5 @@
 {
-  "name": "bs-st-react-boilerplate",
+  "name": "${{values.component_id}}",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

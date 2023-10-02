@@ -2,27 +2,41 @@ apiVersion: scaffolder.backstage.io/v1beta3
 # https://backstage.io/docs/features/software-catalog/descriptor-format#kind-template
 kind: Template
 metadata:
-  name: example-reactapp-template
+  name: example-react-app-template
   title: Example React App Template
   description: An example template for the scaffolder that creates a simple React App
+  tags:
+    - react
+    - cra
 spec:
   owner: user:guest
   type: service
 
   # These parameters are used to generate the input form in the frontend, and are
   # used to gather input data for the execution of the template.
-  parameters:
-    - title: Fill in some steps
+    parameters:
+    - title: Provide some simple information
       required:
-        - name
+        - component_id
+        - owner
       properties:
-        name:
+        component_id:
           title: Name
           type: string
           description: Unique name of the component
-          ui:autofocus: true
+          ui:field: EntityNamePicker
+        description:
+          title: Description
+          type: string
+          description: Help others understand what this website is for.
+        owner:
+          title: Owner
+          type: string
+          description: Owner of the component
+          ui:field: OwnerPicker
           ui:options:
-            rows: 5
+            allowedKinds:
+              - Group
     - title: Choose a location
       required:
         - repoUrl
@@ -44,8 +58,13 @@ spec:
       action: fetch:template
       input:
         url: ./content
+        copyWithoutRender:
+          - .github/workflows/*
         values:
-          name: ${{ parameters.name }}
+          component_id: ${{ parameters.component_id }}
+          description: ${{ parameters.description }}
+          destination: ${{ parameters.repoUrl | parseRepoUrl }}
+          owner: ${{ parameters.owner }}
 
     # This step publishes the contents of the working directory to GitHub.
     - id: publish
