@@ -46,12 +46,12 @@ spec:
               - github.com
   steps:
     - id: template
-      name: Fetch Skeleton + Template
+      name: Fetch Content + Template
       action: fetch:template
       input:
-        url: ./skeleton
-        copyWithoutRender:
-          - .github/workflows/*
+        url: ./content
+        # copyWithoutRender:
+        #   - .github/workflows/*
         values:
           component_id: ${{ parameters.component_id }}
           description: ${{ parameters.description }}
